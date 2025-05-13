@@ -45,13 +45,13 @@ const salvarLogs = (name) => {
 
 
 
- app.get(`/logs`, (req, res) => {
+ app.get(`/:id`, (req, res) => {
     
     try{
         const id = req.params.id
-        const dados = fs.readFileSync("logs.txt", `${id}`)
+        const dados = fs.readFileSync("logs.txt", "utf-8")
         const Linhas = dados.split('\n')
-        const ID = Linhas.find(Linha => Linha.startsWith(`${id} -`))
+        const ID = Linhas.find(Linha => Linha.trim().startsWith(`${id} -`))
         
         res.status(200).json({
             msg : `Dados lidos com sucesso: ${id}`,
