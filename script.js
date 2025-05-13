@@ -19,3 +19,21 @@ const salvarLogs = (name) => {
     
 }
  salvarLogs()
+
+
+ app.post("/logs", (req, res) => {
+    const {name} = req.body
+    if(!name){
+        return res.status(400).json({erro: "Nome obrigado a colocar"})
+    }
+    const id = salvarLogs(name)
+
+    res.status(200).json({
+        id: id,
+        msg: "Pessoa registrada"
+    })
+ })
+
+ app.listen(3000, () => {
+    console.log("Servidor rodando porta 3000")
+ })
