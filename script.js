@@ -8,15 +8,15 @@ const app = express()
 
 const salvarLogs = (name) => {
     const data = new Date();
-    const dia = data.getDate();
-    const mes = data.getMonth();
+    const day = data.getDate();
+    const month = data.getMonth();
     const year = data.getFullYear();
-    const hora = data.getHours();
-    const minutos = data.getMinutes();
-    const segundos = data.getSeconds();
+    const hours = data.getHours();
+    const minutes = data.getMinutes();
+    const seconds = data.getSeconds();
 
 
-    const fswrite = (uuid + ' - ' + year + ' - ' + mes + ' - ' + dia + ' - ' + hora + ':- ' + minutos + ' - ' + segundos + ' - ' + name + '\n')
+    const fswrite = (uuid + ' - ' + year + ' - ' + month + ' - ' + day + ' - ' + hours + ':- ' + minutes + ' - ' + seconds + ' - ' + name + '\n')
     fs.writeFileSync("logs.txt", fswrite, {flag: 'a'})
     
 }
