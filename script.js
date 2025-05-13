@@ -4,7 +4,7 @@ let uuid = crypto.randomUUID()
 const express = require("express")
 const app = express()
 
-
+app.use(express.json())
 
 const salvarLogs = (name) => {
     const data = new Date();
@@ -17,14 +17,21 @@ const salvarLogs = (name) => {
 
 
     const fswrite = (uuid + ' - ' + year + ' - ' + month + ' - ' + day + ' - ' + hours + ':- ' + minutes + ' - ' + seconds + ' - ' + name + '\n')
+    
+    
     fs.writeFileSync("logs.txt", fswrite, {flag: 'a'})
+
+    return uuid
     
 }
  salvarLogs()
 
 
  app.post("/logs", (req, res) => {
+    
+    
     const {name} = req.body
+        
     if(!name){
         return res.status(400).json({erro: "Nome obrigado a colocar"})
     }
@@ -38,19 +45,24 @@ const salvarLogs = (name) => {
 
 
 
- app.get(`/:id`, (req, res) => {
+ app.get(`/logs`, (req, res) => {
+    
     try{
         const id = req.params.id
         const dados = fs.readFileSync("logs.txt", `${id}`)
-        const dadosID = dados.find(dado => dado.startsWith(`${id} -`))
+        const Linhas = dados.split('\n')
+        const ID = Linhas.find(Linha => Linha.startsWith(`${id} -`))
+        
         res.status(200).json({
-            msg : `Dados lidos com sucesso para o ID: ${id}`,
-            dados: dadosID
+            msg : `Dados lidos com sucesso: ${id}`,
+            dados: ID
         })
+   
     }catch(erro){
         res.status(500).json({erro: "Erro ao ler os logs"})
     }
  })
+ 
  app.listen(3000, () => {
     console.log("Servidor rodando porta 3000")
  })
